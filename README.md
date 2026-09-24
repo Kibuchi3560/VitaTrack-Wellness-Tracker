@@ -3,13 +3,15 @@ Habit & Wellness Tracker
 Python Semester-Long Individual Application Project
 PROJECT PROPOSAL
 1. Application Name
+
 "VitaTrack" – A Personal Habit & Wellness Tracker
 
 2. Problem Statement
-Many people struggle to maintain consistent daily habits that contribute to their overall well-being, such as drinking enough water, exercising, sleeping adequately, and managing stress. Without a simple way to record and reflect on these habits, individuals lose track of their progress and motivation. Existing wellness apps are often complex, require internet connectivity, or focus on a single aspect of wellness. There is a need for a simple, offline command-line tool that helps users track multiple wellness habits, view their daily status, and receive instant feedback on their progress.
+
+Many people especially us the students who mainly tend to live fast lives like surviving on cheap fast foods, struggle to maintain habits that contribute to their overall well-being, such as drinking enough water, exercising, sleeping adequately, and managing stress which most often is caused by academic pressure or other outside world influence. Without a simple way to record and reflect on these habits, individuals lose track of their progress and motivation. Existing wellness apps are often complex, require internet connectivity, or focus on a single aspect of wellness. There is a need for a simple, offline command-line tool that helps users track multiple wellness habits, view their daily status, and receive instant feedback on their progress.
 
 3. Target Users
-Primary: University students and young professionals (ages 18–35) who want to build healthier routines.
+Primary: University students and young professionals (ages 18–35) targetting for healthy routines.
 
 Secondary: Anyone with basic computer literacy who wants a lightweight, no-frills wellness tracker without needing a smartphone app or internet connection.
 
@@ -29,10 +31,11 @@ Build self-awareness and motivation through consistent tracking.
 1	Log Daily Wellness	User enters water (glasses), sleep (hours), exercise (minutes), and mood (1–10).
 2	View Daily Summary	Displays all logged metrics in a clean, formatted view.
 3	Wellness Score Calculation	Calculates a score (0–100) based on how close the user is to recommended targets.
-4	Personalised Feedback	Gives targeted advice (e.g., "Drink more water", "Great sleep!").
+4	Personalzed Feedback	Gives targeted advice (e.g., "Drink more water", "Great sleep!").
 5	Goal Checker	Compares user input against predefined healthy targets and reports pass/fail per category.
 6	Simple Report Generation	Produces a text-based daily report card.
 7	Persistent Storage (later stage)	Saves logs to a file so history is preserved between sessions.
+
 6. Expected Input
 User's name (text)
 
