@@ -7,122 +7,111 @@ Stage 8 - Error Handling
 
 from datetime import datetime
 
+
 def get_valid_name(prompt="Enter your name: "):
+    """Prompt until a non-empty name of at least 2 characters is entered."""
     while True:
         try:
             name = input(prompt).strip()
-            if len(name) >= 2:
-                return name
-            else:
-                print("Name must be at least 2 characters long. Please try again.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.") 
+        except (EOFError, KeyboardInterrupt):
+            print("\n  [!] Input interrupted.")
+            raise
+        if not name:
+            print("  [!] Name cannot be empty. Please try again.")
+            continue
+        if len(name) < 2:
+            print("  [!] Name must be at least 2 characters.")
+            continue
+        return name
 
-def get_valid_int(prompt, min_value=None, max_value=None):
+
+def get_valid_int(prompt, min_val=None, max_val=None):
+    """Prompt until a valid integer within optional bounds is entered."""
     while True:
         try:
-            number = int(input(prompt).strip())
-            if min_value is not None and number < min_value:
-                print(f"Value must be at least {min_value}. Please try again.")
-            elif max_value is not None and number > max_value:
-                print(f"Value must be at most {max_value}. Please try again.")
-            else:
-                return number
+            value = int(input(prompt).strip())
         except ValueError:
-            print("Invalid input. Please enter a valid integer.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.") 
+            print("  [!] Invalid input. Please enter a whole number.")
+            continue
+        except (EOFError, KeyboardInterrupt):
+            print("\n  [!] Input interrupted.")
+            raise
+        if min_val is not None and value < min_val:
+            print(f"  [!] Value must be at least {min_val}.")
+            continue
+        if max_val is not None and value > max_val:
+            print(f"  [!] Value must be at most {max_val}.")
+            continue
+        return value
 
-def get_valid_float(prompt, min_value=None, max_value=None):
+
+def get_valid_float(prompt, min_val=None, max_val=None):
+    """Prompt until a valid float within optional bounds is entered."""
     while True:
         try:
-            number = float(input(prompt).strip())
-            if min_value is not None and number < min_value:
-                print(f"Value must be at least {min_value}. Please try again.")
-            elif max_value is not None and number > max_value:
-                print(f"Value must be at most {max_value}. Please try again.")
-            else:
-                return number
+            value = float(input(prompt).strip())
         except ValueError:
-            print("Invalid input. Please enter a valid number.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            print("  [!] Invalid input. Please enter a number (e.g. 7.5).")
+            continue
+        except (EOFError, KeyboardInterrupt):
+            print("\n  [!] Input interrupted.")
+            raise
+        if min_val is not None and value < min_val:
+            print(f"  [!] Value must be at least {min_val}.")
+            continue
+        if max_val is not None and value > max_val:
+            print(f"  [!] Value must be at most {max_val}.")
+            continue
+        return value
 
-def get_valid_date(prompt="Enter a date (YYYY-MM-DD): "):
+
+def get_valid_date(prompt="Enter date (YYYY-MM-DD) or press Enter for today: ", allow_today=True):
+    """Prompt until a valid YYYY-MM-DD date is entered."""
     while True:
         try:
             date_str = input(prompt).strip()
-            date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-            return date_obj.date()
+        except (EOFError, KeyboardInterrupt):
+            print("\n  [!] Input interrupted.")
+            raise
+        if not date_str and allow_today:
+            return datetime.now().strftime("%Y-%m-%d")
+        if not date_str:
+            print("  [!] Date cannot be empty.")
+            continue
+        try:
+            datetime.strptime(date_str, "%Y-%m-%d")
+            return date_str
         except ValueError:
-            print("Invalid date format. Please enter in YYYY-MM-DD format.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            print("  [!] Invalid date format. Use YYYY-MM-DD (e.g. 2025-01-15).")
 
-def get_valid_time(prompt="Enter a time (HH:MM): "):
+
+def get_valid_menu_choice(prompt, valid_choices):
+    """Prompt until a menu choice from valid_choices is entered."""
     while True:
         try:
-            time_str = input(prompt).strip()
-            time_obj = datetime.strptime(time_str, "%H:%M")
-            return time_obj.time()
+            choice = int(input(prompt).strip())
         except ValueError:
-            print("Invalid time format. Please enter in HH:MM format.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            print("  [!] Invalid input. Please enter a number.")
+            continue
+        except (EOFError, KeyboardInterrupt):
+            print("\n  [!] Input interrupted.")
+            raise
+        if choice not in valid_choices:
+            print(f"  [!] Invalid option. Choose from {valid_choices}.")
+            continue
+        return choice
 
-def get_valid_datetime(prompt="Enter a date and time (YYYY-MM-DD HH:MM): "):
+
+def get_yes_no(prompt="Confirm? (y/n): "):
+    """Prompt until 'y' or 'n' is entered. Returns True for 'y'."""
     while True:
         try:
-            datetime_str = input(prompt).strip()
-            datetime_obj = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
-            return datetime_obj
-        except ValueError:
-            print("Invalid date and time format. Please enter in YYYY-MM-DD HH:MM format.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
-
-def get_valid_choice(prompt, choices):
-    while True:
-        try:
-            choice = input(prompt).strip()
-            if choice in choices:
-                return choice
-            else:
-                print(f"Invalid choice. Please select from {choices}.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
-
-def get_valid_yes_no(prompt="Enter 'yes' or 'no': "):
-    while True:
-        try:
-            response = input(prompt).strip().lower()
-            if response in ['y', 'n']:
-                return response
-            else:
-                print("Invalid input. Please enter 'yes' or 'no'.")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user.")
-            exit()
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+            answer = input(prompt).strip().lower()
+        except (EOFError, KeyboardInterrupt):
+            print("\n  [!] Input interrupted.")
+            raise
+        if answer in ("y", "yes"):
+            return True
+        if answer in ("n", "no"):
+            return False
+        print("  [!] Please enter 'y' or 'n'.")
