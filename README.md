@@ -23,17 +23,3 @@ wellness tracker without needing a smartphone or internet connection.
 7. **Persistent Storage** – records saved to `data/wellness_log.txt`.
 
 ## Project Structure
-VitaTrack_Project/
-├── main.py
-├── modules/
-│ ├── init.py
-│ ├── calculations.py
-│ ├── records.py
-│ ├── reports.py
-│ ├── storage.py
-│ └── validation.py
-├── data/
-│ └── wellness_log.txt
-├── test/
-│ └── test_vitatrack.py
-└── README.md

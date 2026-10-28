@@ -1,92 +1,67 @@
 """
-VitaTrack - Habit & Wellness Tracker Project
+VitaTrack - Habit & Wellness Tracker
+Main entry point with menu-driven interface.
+
+Stages implemented:
+  Stage 4  - Loops and iteration (menu loop)
+  Stage 5  - Functions
+  Stage 6  - Data structures (list of dicts)
+  Stage 7  - File handling (via modules.storage)
+  Stage 8  - Error handling (via modules.validation)
+  Stage 9  - Modular programming
 """
 
-WATER_TARGET = 8         
-SLEEP_TARGET = 8.0        
-EXERCISE_TARGET = 30      
-MOOD_TARGET = 7           
+from modules.records import add_record, view_all_records, delete_record, view_report_for_date
+from modules.reports import display_statistics, export_summary_report
+from modules.storage import load_records
+from modules.validation import get_valid_menu_choice
+
+MENU = """
+============================================================
+              VitaTrack - Main Menu
+============================================================
+  1. Log Daily Wellness
+  2. View All Records
+  3. View Report for a Date
+  4. View Statistics
+  5. Delete a Record
+  6. Export Summary Report
+  7. Exit
+============================================================
+"""
 
 
-print("\nWelcome to VitaTrack Wellness Tracker")
-    
-    
-user_name = input("Enter your name: ")
-print(f"\nHello, {user_name}! Let's log your day.\n")
+def main():
+    print("=" * 60)
+    print("   Welcome to VitaTrack - Your Personal Wellness Tracker")
+    print("=" * 60)
 
-water_glasses = int(input("How many glasses of water did you drink? "))
-sleep_hours = float(input("How many hours did you sleep? "))
-exercise_minutes = int(input("How many minutes did you exercise? "))
-mood_rating = int(input("Rate your mood today (1-10): "))
+    # Load existing records from file (Stage 7 + 8)
+    records = load_records()
+    print(f"  Loaded {len(records)} record(s) from storage.\n")
 
-    
-water_score = min((water_glasses / WATER_TARGET) * 100, 100)
-sleep_score = min((sleep_hours / SLEEP_TARGET) * 100, 100)
-exercise_score = min((exercise_minutes / EXERCISE_TARGET) * 100, 100)
-mood_score = (mood_rating / 10) * 100
-overall_score = (water_score + sleep_score + exercise_score + mood_score) / 4
+    # Menu loop (Stage 4)
+    while True:
+        print(MENU)
+        choice = get_valid_menu_choice("Select an option (1-7): ", [1, 2, 3, 4, 5, 6, 7])
 
-
-   
-print("              GOAL CHECK RESULTS")
-    
-if water_glasses >= WATER_TARGET:
-    print(f"[PASS] Water: You drank {water_glasses} glasses. Excellent hydration!")
-elif water_glasses >= WATER_TARGET / 2:
-    print(f"[NEAR] Water: You drank {water_glasses} glasses. Try to reach {WATER_TARGET}.")
-else:
-    print(f"[FAIL] Water: Only {water_glasses} glasses. Drink more water!")
-
-    
-if sleep_hours >= SLEEP_TARGET:
-    print(f"[PASS] Sleep: {sleep_hours} hours. Great rest!")
-elif sleep_hours >= 6:
-    print(f"[NEAR] Sleep: {sleep_hours} hours. Slightly below target.")
-else:
-    print(f"[FAIL] Sleep: Only {sleep_hours} hours. You need more rest!")
-
-    
-if exercise_minutes >= EXERCISE_TARGET:
-    print(f"[PASS] Exercise: {exercise_minutes} minutes. Well done!")
-elif exercise_minutes >= 15:
-    print(f"[NEAR] Exercise: {exercise_minutes} minutes. Try for {EXERCISE_TARGET}.")
-else:
-    print(f"[FAIL] Exercise: Only {exercise_minutes} minutes. Get moving!")
-
-    
-if mood_rating >= MOOD_TARGET and sleep_hours >= 7:
-    print(f"[PASS] Mood: {mood_rating}/10 and well-rested. Keep it up!")
-elif mood_rating >= MOOD_TARGET or exercise_minutes >= EXERCISE_TARGET:
-    print(f"[NEAR] Mood: {mood_rating}/10. Some positive factors present.")
-else:
-    print(f"[FAIL] Mood: {mood_rating}/10. Consider rest and activity.")
+        if choice == 1:
+            records = add_record(records)
+        elif choice == 2:
+            view_all_records(records)
+        elif choice == 3:
+            view_report_for_date(records)
+        elif choice == 4:
+            display_statistics(records)
+        elif choice == 5:
+            records = delete_record(records)
+        elif choice == 6:
+            export_summary_report(records)
+        elif choice == 7:
+            print("\n  Thank you for using VitaTrack. Stay well!")
+            print("=" * 60)
+            break
 
 
-    
-print(f"       OVERALL WELLNESS SCORE: {overall_score:.1f}/100")
-   
-
-if overall_score >= 85:
-    rating = "EXCELLENT"
-    advice = "Outstanding! You are thriving. Keep this routine!"
-elif overall_score >= 70:
-    rating = "GOOD"
-    advice = "Great job! Small improvements will make it excellent."
-elif overall_score >= 50:
-    rating = "FAIR"
-    advice = "You're on the right track. Focus on weaker areas."
-elif overall_score >= 30:
-    rating = "NEEDS IMPROVEMENT"
-    advice = "Try to build consistency. Start with one habit."
-else:
-    rating = "POOR"
-    advice = "Your wellness needs attention. Begin with small, daily steps."
-
-print(f"Rating : {rating}")
-print(f"Advice : {advice}")
-    
-print(f"\nThank you for tracking with VitaTrack, {user_name}!")
-
-
-
-
+if __name__ == "__main__":
+    main()
